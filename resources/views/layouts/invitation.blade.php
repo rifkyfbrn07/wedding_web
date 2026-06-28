@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- Dynamic SEO --}}
+    <title>{{ $seo['title'] ?? 'The Wedding of Ikko & Fadhly' }}</title>
+    <meta name="description" content="{{ $seo['description'] ?? 'Undangan pernikahan Ikko & Fadhly — 09 Agustus 2026 di Villa Srimanganti, Jakarta Timur.' }}">
+
+    {{-- OpenGraph --}}
+    <meta property="og:type"        content="website">
+    <meta property="og:title"       content="{{ $seo['title'] ?? 'The Wedding of Ikko & Fadhly' }}">
+    <meta property="og:description" content="{{ $seo['description'] ?? 'Undangan pernikahan Ikko & Fadhly' }}">
+    <meta property="og:image"       content="{{ $invitation->cover_image_url ?? asset('images/og-cover.jpg') }}">
+    <meta property="og:url"         content="{{ url()->current() }}">
+    <meta name="twitter:card"       content="summary_large_image">
+
+    {{-- JSON-LD Event Schema --}}
+    <script type="application/ld+json">
+    @verbatim
+    {
+        "@context": "https://schema.org",
+        "@type": "Event",
+    @endverbatim
+        "name": "The Wedding of {{ $invitation->bride_name }} & {{ $invitation->groom_name }}",
+        "startDate": "{{ $invitation->akad_start_at->toIso8601String() }}",
+        "endDate": "{{ $invitation->reception_end_at->toIso8601String() }}",
+        "location": {
+            "@type": "Place",
+            "name": "{{ $invitation->venue_name }}",
+            "address": {
+                "@@type": "PostalAddress",
+                "streetAddress": "{{ addslashes($invitation->venue_address) }}"
+            }
+        }
+    }
+    </script>
+
+    {{-- Favicon --}}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    {{-- Preconnect fonts --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    @vite(['resources/css/app.css', 'resources/js/main.js'])
+</head>
+<body class="cover-locked" x-data>
+
+    {{-- Invitation data for JS --}}
+    <script>
+        window.WEDDING = {
+            invitationId: {{ $invitation->id }},
+            akadDate: '{{ $invitation->akad_start_at->toIso8601String() }}',
+            hasMusicPath: {{ $invitation->music_path ? 'true' : 'false' }},
+        };
+    </script>
+
+    {{-- ===== COVER PAGE ===== --}}
+    @include('components.cover', ['invitation' => $invitation, 'guest' => $guest ?? null])
+
+    {{-- ===== MUSIC PLAYER ===== --}}
+    @include('components.music-player', ['invitation' => $invitation])
+
+    {{-- ===== MAIN LAYOUT ===== --}}
+    <div class="main-layout" id="main-layout">
+
+        {{-- LEFT: Scrollable Content --}}
+        <main class="main-content" id="main-content">
+
+            @include('components.hero',      ['invitation' => $invitation])
+            @include('components.couple',    ['invitation' => $invitation])
+            @include('components.countdown', ['invitation' => $invitation])
+            @include('components.event',     ['invitation' => $invitation])
+            @include('components.gallery',   ['invitation' => $invitation])
+            @include('components.rsvp',      ['invitation' => $invitation, 'guest' => $guest ?? null])
+            @include('components.wishes',    ['invitation' => $invitation])
+
+            <footer class="site-footer">
+                <div class="footer-names">
+                    {{ $invitation->bride_name }}
+                    <span class="amp"> &amp; </span>
+                    {{ $invitation->groom_name }}
+                </div>
+                <div class="footer-date">09 · 08 · 2026</div>
+                <div class="footer-copy">Made with love · {{ date('Y') }}</div>
+            </footer>
+
+        </main>
+
+        {{-- RIGHT: Fixed Sidebar (desktop only) --}}
+        @include('components.sidebar', ['invitation' => $invitation])
+
+    </div>
+
+    {{-- Mobile Bottom Nav --}}
+    @include('components.mobile-nav')
+
+    {{-- Gallery Lightbox --}}
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
+        <button id="lightbox-close" class="lightbox-close" aria-label="Tutup">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <img id="lightbox-img" src="" alt="Gallery Photo">
+    </div>
+
+    {{-- Toast --}}
+    <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+</body>
+</html>
