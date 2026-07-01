@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class GalleryImage extends Model
 {
@@ -16,22 +16,22 @@ class GalleryImage extends Model
     ];
 
     protected $casts = [
-        'is_active'  => 'boolean',
+        'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
-
-    public function invitation(): BelongsTo
-    {
-        return $this->belongsTo(Invitation::class);
-    }
-
-    public function getUrlAttribute(): string
-    {
-        return asset('storage/' . $this->path);
-    }
 
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    public function getUrlAttribute()
+    {
+        return Storage::url($this->path);
+    }
+
+    public function invitation()
+    {
+        return $this->belongsTo(Invitation::class);
     }
 }

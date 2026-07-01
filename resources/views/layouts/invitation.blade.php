@@ -13,7 +13,7 @@
     <meta property="og:type"        content="website">
     <meta property="og:title"       content="{{ $seo['title'] ?? 'The Wedding of Ikko & Fadhly' }}">
     <meta property="og:description" content="{{ $seo['description'] ?? 'Undangan pernikahan Ikko & Fadhly' }}">
-    <meta property="og:image"       content="{{ $invitation->cover_image_url ?? asset('images/og-cover.jpg') }}">
+    <meta property="og:image"       content="{{ $invitation->cover_image_url ?? asset('images/decorations/1.PNG') }}">
     <meta property="og:url"         content="{{ url()->current() }}">
     <meta name="twitter:card"       content="summary_large_image">
 

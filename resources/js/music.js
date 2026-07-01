@@ -1,54 +1,85 @@
-// ============================================================
-// music.js — Floating music player with localStorage persistence
-// ============================================================
-
+// music.js — Music Player dengan Auto-play
 export function initMusicPlayer() {
-    const audio   = document.getElementById('bg-music');
-    const playBtn = document.getElementById('music-play-btn');
-    const pauseBtn = document.getElementById('music-pause-btn');
-    const fab     = document.getElementById('music-fab');
-
-    if (!audio || !fab) return;
-
-    // Restore saved state (default: playing after cover opens)
-    let isPlaying = localStorage.getItem('wedding-music-playing') !== 'false';
-
-    function setPlayingState(playing) {
+    const musicToggle = document.getElementById('music-toggle');
+    const musicPlayer = document.getElementById('music-player');
+    const iconPlay = document.getElementById('music-icon-play');
+    const iconPause = document.getElementById('music-icon-pause');
+    
+    if (!musicToggle || !musicPlayer) return;
+    
+    let isPlaying = false;
+    
+    // Function untuk update icon
+    function updateMusicIcon(playing) {
         isPlaying = playing;
-        localStorage.setItem('wedding-music-playing', playing ? 'true' : 'false');
-
         if (playing) {
-            fab.classList.add('playing');
-            if (playBtn)  playBtn.classList.add('hidden');
-            if (pauseBtn) pauseBtn.classList.remove('hidden');
+            if (iconPlay) iconPlay.style.display = 'none';
+            if (iconPause) iconPause.style.display = 'block';
+            musicToggle.classList.add('playing');
         } else {
-            fab.classList.remove('playing');
-            if (playBtn)  playBtn.classList.remove('hidden');
-            if (pauseBtn) pauseBtn.classList.add('hidden');
+            if (iconPlay) iconPlay.style.display = 'block';
+            if (iconPause) iconPause.style.display = 'none';
+            musicToggle.classList.remove('playing');
         }
     }
-
-    fab.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play().catch(() => {});
-            setPlayingState(true);
+    
+    // Function untuk toggle play/pause
+    function toggleMusic() {
+        if (musicPlayer.paused) {
+            musicPlayer.play()
+                .then(() => {
+                    updateMusicIcon(true);
+                })
+                .catch((error) => {
+                    console.log('Play failed:', error);
+                });
         } else {
-            audio.pause();
-            setPlayingState(false);
+            musicPlayer.pause();
+            updateMusicIcon(false);
+        }
+    }
+    
+    // Event listener untuk button
+    musicToggle.addEventListener('click', toggleMusic);
+    musicToggle.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            toggleMusic();
         }
     });
-
-    // Keep UI in sync with audio element state
-    audio.addEventListener('play',  () => setPlayingState(true));
-    audio.addEventListener('pause', () => setPlayingState(false));
-    audio.addEventListener('ended', () => {
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
+    
+    // Update icon saat audio ended
+    musicPlayer.addEventListener('ended', function() {
+        updateMusicIcon(false);
     });
-
-    // Set loop
-    audio.loop = true;
-
-    // Init UI
-    setPlayingState(isPlaying);
+    
+    // AUTO-PLAY saat halaman dibuka
+    // Coba auto-play, kalau gagal (browser block), tunggu user interaction
+    musicPlayer.volume = 0.7; // Set volume 70%
+    
+    musicPlayer.play()
+        .then(() => {
+            console.log('Music auto-played successfully');
+            updateMusicIcon(true);
+        })
+        .catch((error) => {
+            console.log('Autoplay blocked by browser. Waiting for user interaction.');
+            // Browser block autoplay, user harus klik manual
+            updateMusicIcon(false);
+        });
+    
+    // Alternative: Auto-play setelah cover dibuka
+    window.addEventListener('cover-opened', () => {
+        setTimeout(() => {
+            if (musicPlayer.paused) {
+                musicPlayer.play()
+                    .then(() => {
+                        console.log('Music played after cover opened');
+                        updateMusicIcon(true);
+                    })
+                    .catch((error) => {
+                        console.log('Still blocked after cover opened');
+                    });
+            }
+        }, 500); // Delay 500ms setelah cover opened
+    });
 }

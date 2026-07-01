@@ -1,3 +1,7 @@
+@php
+use Illuminate\Support\Facades\File;
+@endphp
+
 {{-- ===== GALLERY SECTION ===== --}}
 <section id="gallery" aria-label="Galeri Foto">
 
@@ -6,22 +10,42 @@
     <div class="gold-line gsap-fade-up"></div>
 
     @php
-        $images = $invitation->galleryImages()->active()->get();
+        // Baca semua file dari folder gallery
+        $galleryPath = public_path('images/gallery');
+        $images = [];
+        
+        if (File::exists($galleryPath)) {
+            $files = File::files($galleryPath);
+            foreach ($files as $file) {
+                // Hanya ambil file gambar
+                if (in_array(strtolower($file->getExtension()), ['jpg', 'jpeg', 'png', 'webp'])) {
+                    $images[] = [
+                        'path' => 'images/gallery/' . $file->getFilename(),
+                        'caption' => pathinfo($file->getFilename(), PATHINFO_FILENAME),
+                    ];
+                }
+            }
+            
+            // Urutkan berdasarkan nama file
+            usort($images, function($a, $b) {
+                return strcmp($a['path'], $b['path']);
+            });
+        }
     @endphp
 
-    @if($images->count() > 0)
+    @if(count($images) > 0)
         <div class="gallery-grid" role="list" aria-label="Foto galeri">
-            @foreach($images as $image)
+            @foreach($images as $index => $image)
                 <div
                     class="gallery-item"
-                    data-full-src="{{ $image->url }}"
+                    data-full-src="{{ asset($image['path']) }}"
                     role="listitem"
                     tabindex="0"
-                    aria-label="Foto {{ $loop->iteration }}"
+                    aria-label="Foto {{ $index + 1 }}"
                 >
                     <img
-                        src="{{ $image->url }}"
-                        alt="{{ $image->caption ?: 'Wedding Photo ' . $loop->iteration }}"
+                        src="{{ asset($image['path']) }}"
+                        alt="{{ $image['caption'] }}"
                         loading="lazy"
                         width="400"
                         height="533"

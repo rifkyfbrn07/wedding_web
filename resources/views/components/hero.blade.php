@@ -1,7 +1,5 @@
-{{-- ===== HERO SECTION ===== --}}
 <section id="hero" aria-label="Hero">
 
-    {{-- Parallax background --}}
     <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
 

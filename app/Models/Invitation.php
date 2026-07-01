@@ -59,27 +59,37 @@ class Invitation extends Model
 
     public function approvedWishes(): HasMany
     {
-        return $this->hasMany(Wish::class)->where('is_approved', true)->latest();
+        return $this->hasMany(Wish::class)
+            ->where('is_approved', true)
+            ->latest();
     }
 
     public function getCoverImageUrlAttribute(): ?string
     {
-        return $this->cover_image ? asset('storage/' . $this->cover_image) : null;
+        return $this->cover_image
+            ? asset('storage/' . $this->cover_image)
+            : null;
     }
 
     public function getBridePhotoUrlAttribute(): ?string
     {
-        return $this->bride_photo ? asset('storage/' . $this->bride_photo) : null;
+        return $this->bride_photo
+            ? asset('storage/' . $this->bride_photo)
+            : null;
     }
 
     public function getGroomPhotoUrlAttribute(): ?string
     {
-        return $this->groom_photo ? asset('storage/' . $this->groom_photo) : null;
+        return $this->groom_photo
+            ? asset('storage/' . $this->groom_photo)
+            : null;
     }
 
     public function getMusicUrlAttribute(): ?string
     {
-        return $this->music_path ? asset('storage/' . $this->music_path) : null;
+        return $this->music_path
+            ? asset('storage/' . $this->music_path)
+            : null;
     }
 
     public function scopeActive($query)

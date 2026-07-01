@@ -122,4 +122,8 @@ function initSidebarNav() {
         const el = document.getElementById(id);
         if (el) observer.observe(el);
     });
+
+    
+
+
 }
