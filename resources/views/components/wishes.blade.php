@@ -30,6 +30,7 @@
                         name="name"
                         class="form-input"
                         placeholder="Nama Anda"
+                        value="{{ isset($guest) && $guest ? $guest->name : '' }}"
                         required
                         autocomplete="name"
                     >

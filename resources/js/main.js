@@ -10,6 +10,7 @@ import intersect from '@alpinejs/intersect';
 import Lenis from 'lenis';
 
 import { initCover }          from './cover.js';
+import { initFireflies }      from './fireflies.js';
 import { initGsapAnimations } from './gsap-animations.js';
 import { initCountdown }      from './countdown.js';
 import { initMusicPlayer }    from './music.js';
@@ -69,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cover page — sets up open-invitation button
     initCover();
+    initFireflies('cover-page', 22);
 
     // Music player FAB
     initMusicPlayer();

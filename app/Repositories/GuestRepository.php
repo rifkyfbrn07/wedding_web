@@ -17,11 +17,13 @@ class GuestRepository implements GuestRepositoryInterface
     public function firstOrCreate(Invitation $invitation, string $name, string $slug): Guest
     {
         return Guest::firstOrCreate(
-            ['slug' => $slug],
             [
                 'invitation_id' => $invitation->id,
-                'name'          => $name,
-                'visit_count'   => 0,
+                'slug'          => $slug,
+            ],
+            [
+                'name'        => $name,
+                'visit_count' => 0,
             ]
         );
     }

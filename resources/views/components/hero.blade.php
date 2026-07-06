@@ -6,17 +6,17 @@
     <div class="hero-content">
 
         <div class="hero-date-tag" aria-hidden="true">
-            Minggu, 09 Agustus 2026
+            {{ $invitation->akad_start_at->translatedFormat('l, d F Y') }}
         </div>
 
-        <h2 class="hero-title" aria-label="Ikko dan Fadhly">
-            <span class="name-line">Ikko</span>
-            <span class="amp-line">The Wedding</span>
-            <span class="name-line">Fadhly</span>
+        <h2 class="hero-title" aria-label="{{ $invitation->bride_name }} dan {{ $invitation->groom_name }}">
+            <span class="name-line">{{ $invitation->bride_name }}</span>
+            <span class="amp-line">&amp;</span>
+            <span class="name-line">{{ $invitation->groom_name }}</span>
         </h2>
 
         <p class="hero-tagline">
-            Menjadi satu dalam ikatan suci yang penuh kasih dan berkah.
+            Menyatukan dua hati dalam doa dan cinta.
         </p>
 
     </div>

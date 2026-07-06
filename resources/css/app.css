@@ -10,16 +10,16 @@
 
 /* ── Design Tokens - RED THEME ── */
 @theme {
-    --color-bg:           #810029;
-    --color-bg-soft:      #6B0022;
-    --color-bg-card:      #8F002F;
-    --color-accent:       #FFD700;
-    --color-accent-light: #FFE44D;
-    --color-accent-dark:  #CCA800;
-    --color-text:         #FFFFFF;
-    --color-text-muted:   rgba(255, 255, 255, 0.7);
-    --color-beige:        #FFFFFF;
-    --color-beige-dark:   rgba(255, 255, 255, 0.85);
+    --color-bg:           #5d101b;
+    --color-bg-soft:      #4c0d18;
+    --color-bg-card:      #641523;
+    --color-accent:       #d9b250;
+    --color-accent-light: #f1d28b;
+    --color-accent-dark:  #aa8b3f;
+    --color-text:         #f8efe5;
+    --color-text-muted:   rgba(248, 239, 229, 0.72);
+    --color-beige:        #f8efe5;
+    --color-beige-dark:   rgba(248, 239, 229, 0.9);
 
     --font-serif-display: 'Cormorant Garamond', 'Georgia', serif;
     --font-serif-body:    'Playfair Display', 'Georgia', serif;
@@ -54,6 +54,7 @@ body {
     font-family: var(--font-sans);
     overflow-x: hidden;
     line-height: 1.6;
+    min-height: 100vh;
 }
 
 body.cover-locked {
@@ -87,12 +88,25 @@ body.cover-locked {
     position: fixed;
     inset: 0;
     z-index: 999;
-    background: var(--color-bg);
+    background: radial-gradient(circle at 20% 15%, rgba(255, 231, 181, 0.08), transparent 18%),
+        radial-gradient(circle at 85% 25%, rgba(255, 215, 0, 0.1), transparent 22%),
+        radial-gradient(circle at 50% 80%, rgba(248, 239, 229, 0.06), transparent 30%),
+        linear-gradient(180deg, #5a101d 0%, #461014 60%, #2d0a11 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#cover-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 70% 30%, rgba(255, 215, 0, 0.09), transparent 20%);
+    opacity: 1;
+    pointer-events: none;
 }
 
 #cover-page.opening {
@@ -105,9 +119,11 @@ body.cover-locked {
 .cover-bg {
     position: absolute;
     inset: 0;
-    background-size: contain;
+    background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    opacity: 0.24;
+    filter: saturate(0.8) brightness(0.92);
 }
 
 @media (max-width: 768px) {
@@ -172,43 +188,84 @@ body.cover-locked {
     );
     pointer-events:none;
     z-index:1;
+}/* Ornamen dekorasi di pojok-pojok halaman cover */
+.cover-ornaments {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
 }
 
+.cover-ornaments img {
+    position: absolute;
+    width: clamp(100px, 18vw, 220px);
+    height: auto;
+    opacity: 0.9;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.15));
+}
 
+.ornament-top-left {
+    top: -20px;
+    left: -20px;
+}
 
+.ornament-top-right {
+    top: -20px;
+    right: -20px;
+    transform: rotate(90deg);
+}
 
+.ornament-bottom-left {
+    bottom: -20px;
+    left: -20px;
+    transform: rotate(-90deg);
+}
+
+.ornament-bottom-right {
+    bottom: -20px;
+    right: -20px;
+    transform: rotate(180deg);
+}
 /* Cover Content */
 .cover-content {
     position: relative;
     z-index: 10;
     text-align: center;
     padding: 3rem 2rem;
-    max-width: 500px;
-    width: 90%;
+    max-width: 520px;
+    width: 95%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 72vh;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 100px rgba(255, 215, 0, 0.08);
 }
 
 .cover-eyebrow {
     font-family: var(--font-sans);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: var(--color-accent);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     opacity: 0;
     animation: fadeInUp 1s ease 0.4s forwards;
 }
 
 .cover-names {
     font-family: var(--font-serif-display);
-    font-size: clamp(3rem, 10vw, 6rem);
+    font-size: clamp(3.5rem, 9vw, 6.5rem);
     font-weight: 300;
-    line-height: 1;
+    line-height: 0.9;
     color: var(--color-beige);
     letter-spacing: -0.02em;
     opacity: 0;
@@ -258,37 +315,46 @@ body.cover-locked {
 .cover-open-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
     margin-top: 2.5rem;
-    padding: 0.875rem 2.25rem;
-    background: transparent;
-    border: 1px solid var(--color-accent);
+    padding: 1rem 2.5rem;
+    background: rgba(255, 215, 0, 0.16);
+    border: 1px solid rgba(255, 215, 0, 0.42);
     color: var(--color-accent);
     font-family: var(--font-sans);
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
     position: relative;
     overflow: hidden;
+    border-radius: 999px;
     opacity: 0;
     animation: fadeInUp 1s ease 1.6s forwards;
+}
+
+.cover-open-btn-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
 }
 
 .cover-open-btn::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: var(--color-accent);
+    background: rgba(255, 215, 0, 0.2);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 0.4s ease;
+    transition: transform 0.3s ease;
     z-index: -1;
 }
 
 .cover-open-btn:hover {
-    color: var(--color-bg);
+    color: #4c0d18;
+    background: rgba(255, 215, 0, 0.96);
 }
 
 .cover-open-btn:hover::before {
@@ -296,11 +362,87 @@ body.cover-locked {
 }
 
 .cover-open-btn svg {
-    transition: transform 0.4s ease;
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
 }
 
 .cover-open-btn:hover svg {
     transform: translateX(4px);
+}
+
+.cover-date {
+    font-family: var(--font-sans);
+    color: var(--color-beige-dark);
+    font-size: 0.95rem;
+    margin-top: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: capitalize;
+    opacity: 0.95;
+}
+
+.cover-recipient {
+    margin-top: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    text-align: center;
+    color: var(--color-beige-dark);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.cover-recipient strong {
+    display: block;
+    font-family: var(--font-serif-display);
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    color: var(--color-accent);
+    letter-spacing: 0;
+    margin-top: 0.2rem;
+}
+
+.cover-note {
+    margin-top: 1rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    max-width: 420px;
+}
+
+.fireflies {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    overflow: hidden;
+}
+
+.firefly {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.15) 55%, transparent 100%);
+    filter: blur(0.5px);
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+    animation: firefly-blink 4s ease-in-out infinite, firefly-float 6s ease-in-out infinite;
+}
+
+@keyframes firefly-float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(10px, -10px, 0) scale(1.2); }
+}
+
+@keyframes firefly-blink {
+    0%, 100% { opacity: 0; }
+    25% { opacity: 0.8; }
+    35% { opacity: 0.1; }
+    60% { opacity: 0.3; }
+    80% { opacity: 0; }
 }
 
 /* ════════════════════════════════════════════
@@ -337,6 +479,87 @@ body.cover-locked {
 @media (max-width: 1023px) {
     .sidebar      { display: none; }
     .main-content { margin-left: 0; width: 100%; }
+}
+
+@media (max-width: 1023px) {
+    #cover-page {
+        align-items: flex-start;
+        padding-top: 1.5rem;
+    }
+
+    .cover-content {
+        padding: 2rem 1.25rem;
+        max-width: 100%;
+        width: min(100%, 92%);
+        min-height: auto;
+        border-radius: 28px;
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .cover-eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 0.32em;
+        margin-bottom: 1rem;
+    }
+
+    .cover-names {
+        font-size: clamp(2.8rem, 12vw, 5rem);
+    }
+
+    .cover-date {
+        font-size: 0.85rem;
+        letter-spacing: 0.18em;
+        margin-top: 0.65rem;
+    }
+
+    .cover-recipient {
+        padding: 0 0.5rem;
+    }
+
+    .cover-recipient strong {
+        font-size: clamp(1.2rem, 5vw, 1.6rem);
+    }
+
+    .cover-note {
+        font-size: 0.88rem;
+        max-width: 100%;
+    }
+
+    .cover-open-btn {
+        margin-top: 1.6rem;
+        padding: 0.95rem 2rem;
+    }
+
+    .cover-ornaments img {
+        width: clamp(70px, 16vw, 160px);
+    }
+
+    #hero {
+        min-height: auto;
+        padding: clamp(2rem, 6vw, 3rem) clamp(1rem, 4vw, 2rem);
+    }
+
+    .hero-title {
+        font-size: clamp(3rem, 10vw, 5rem);
+    }
+
+    .hero-tagline {
+        font-size: 0.95rem;
+        max-width: 100%;
+    }
+
+    section {
+        padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 1.75rem);
+    }
+
+    .section-title {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem;
+    }
 }
 
 /* ════════════════════════════════════════════
@@ -561,6 +784,7 @@ section {
     min-height: 100svh;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
     overflow: hidden;
     padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3.5rem);
@@ -574,7 +798,7 @@ section {
 .hero-bg {
     position: absolute;
     inset: 0;
-    background-image: url('/images/sidebar/couple.jpg');
+    background-image: url('/images/sidebar/couple.png');
     background-size: cover;
     background-position: center;
     opacity: 0.3; /* Transparan 30% */

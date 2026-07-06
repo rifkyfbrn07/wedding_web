@@ -14,12 +14,15 @@ class GuestForm
         return $schema
             ->components([
                 Select::make('invitation_id')
-                    ->relationship('invitation', 'id')
+                    ->relationship('invitation', 'slug')
                     ->required(),
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(fn ($state, callable $set) => $set('slug', \Illuminate\Support\Str::slug($state))),
                 TextInput::make('slug')
-                    ->required(),
+                    ->required()
+                    ->unique(ignoreRecord: true),
                 TextInput::make('visit_count')
                     ->required()
                     ->numeric()
