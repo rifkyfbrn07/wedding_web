@@ -37,6 +37,7 @@ export function initRsvp() {
             if (res.ok && json.success) {
                 showToast('Terima kasih! RSVP Anda telah kami terima. 🎉', 'success');
                 form.reset();
+                window.dispatchEvent(new CustomEvent('rsvp-submitted'));
             } else {
                 const msg = json.message || 'Terjadi kesalahan. Silakan coba lagi.';
                 showToast(msg, 'error');

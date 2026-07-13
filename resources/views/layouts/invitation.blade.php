@@ -66,6 +66,8 @@
 
     {{-- ===== MAIN LAYOUT ===== --}}
     <div class="main-layout" id="main-layout">
+        {{-- Fireflies Background Effect --}}
+        <div id="main-fireflies" class="main-fireflies-container" aria-hidden="true"></div>
 
         {{-- LEFT: Scrollable Content --}}
         <main class="main-content" id="main-content">
@@ -74,9 +76,8 @@
             @include('components.couple',    ['invitation' => $invitation])
             @include('components.countdown', ['invitation' => $invitation])
             @include('components.event',     ['invitation' => $invitation])
-            @include('components.gallery',   ['invitation' => $invitation])
+            @include('components.blessing')
             @include('components.rsvp',      ['invitation' => $invitation, 'guest' => $guest ?? null])
-            @include('components.wishes',    ['invitation' => $invitation])
 
             <footer class="site-footer">
                 <div class="footer-names">
@@ -98,15 +99,7 @@
     {{-- Mobile Bottom Nav --}}
     @include('components.mobile-nav')
 
-    {{-- Gallery Lightbox --}}
-    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Foto galeri">
-        <button id="lightbox-close" class="lightbox-close" aria-label="Tutup">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <img id="lightbox-img" src="" alt="Gallery Photo">
-    </div>
+
 
     {{-- Toast --}}
     <div id="toast" class="toast" role="alert" aria-live="polite"></div>

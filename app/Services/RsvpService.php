@@ -33,6 +33,19 @@ class RsvpService
         $data['guest_count'] = $data['guest_count'] ?? 1;
         $data['ip_address']  = $request->ip();
 
-        return $this->rsvpRepository->store($data);
+        $rsvp = $this->rsvpRepository->store($data);
+
+        // Bridge RSVP message to the wishes feed
+        if (!empty($data['message'])) {
+            \App\Models\Wish::create([
+                'invitation_id' => $data['invitation_id'],
+                'name'          => $data['name'],
+                'message'       => $data['message'],
+                'is_approved'   => true, // auto-approve so it displays instantly
+                'ip_address'    => $data['ip_address'],
+            ]);
+        }
+
+        return $rsvp;
     }
 }

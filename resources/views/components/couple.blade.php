@@ -24,8 +24,10 @@
 
             <div class="couple-parents">
                 <span class="parent-label">Putri dari</span>
-                {{ $invitation->bride_father ?? 'Bapak Moh. Nur' }}<br>
-                &amp; {{ $invitation->bride_mother ?? 'Ibu Eko P.' }}
+                <span class="parent-names">
+                    {{ $invitation->bride_father ?? 'Bapak Moh. Nur' }}<br>
+                    &amp; {{ $invitation->bride_mother ?? 'Ibu Eko P.' }}
+                </span>
             </div>
 
         </div>
@@ -54,8 +56,10 @@
 
             <div class="couple-parents">
                 <span class="parent-label">Putra dari</span>
-                {{ $invitation->groom_father ?? 'Bapak M. Effendi' }}<br>
-                &amp; {{ $invitation->groom_mother ?? 'Ibu Elis S.' }}
+                <span class="parent-names">
+                    {{ $invitation->groom_father ?? 'Bapak M. Effendi' }}<br>
+                    &amp; {{ $invitation->groom_mother ?? 'Ibu Elis S.' }}
+                </span>
             </div>
 
         </div>

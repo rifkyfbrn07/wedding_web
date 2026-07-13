@@ -17,6 +17,12 @@ export function initWishes(invitationId) {
 
     if (list) {
         loadWishes(invitationId, true);
+
+        // Reload wishes list if an RSVP is successfully submitted
+        window.addEventListener('rsvp-submitted', () => {
+            wishesPage = 1;
+            loadWishes(invitationId, true);
+        });
     }
 
     if (loadMoreBtn) {

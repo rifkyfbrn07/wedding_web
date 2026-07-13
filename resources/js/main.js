@@ -71,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cover page — sets up open-invitation button
     initCover();
     initFireflies('cover-page', 22);
+    initFireflies('main-fireflies', 35);
 
     // Music player FAB
     initMusicPlayer();
@@ -102,7 +103,7 @@ window.addEventListener('cover-opened', () => {
 
 // ── Sidebar nav active state via IntersectionObserver ────────
 function initSidebarNav() {
-    const sections = ['hero', 'couple', 'countdown', 'event', 'gallery', 'rsvp', 'wishes'];
+    const sections = ['hero', 'couple', 'countdown', 'event', 'rsvp'];
     const navItems = document.querySelectorAll('[data-section]');
     if (!navItems.length) return;
 

@@ -45,17 +45,9 @@
                 <span class="nav-dot"></span>
                 <span>EVENT</span>
             </a>
-            <a href="#gallery" class="sidebar-nav-item" data-section="gallery" onclick="event.preventDefault(); scrollToSection('gallery')">
-                <span class="nav-dot"></span>
-                <span>GALLERY</span>
-            </a>
             <a href="#rsvp" class="sidebar-nav-item" data-section="rsvp" onclick="event.preventDefault(); scrollToSection('rsvp')">
                 <span class="nav-dot"></span>
-                <span>RSVP</span>
-            </a>
-            <a href="#wishes" class="sidebar-nav-item" data-section="wishes" onclick="event.preventDefault(); scrollToSection('wishes')">
-                <span class="nav-dot"></span>
-                <span>WISHES</span>
+                <span>RSVP &amp; WISHES</span>
             </a>
         </nav>
 

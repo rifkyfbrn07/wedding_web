@@ -10,10 +10,9 @@
 
     {{-- Decorative Ornaments from "dekorasi" --}}
     <div class="cover-ornaments" aria-hidden="true">
-        <img src="{{ asset('images/decorations/2.png') }}" class="ornament-top-left" alt="">
-        <img src="{{ asset('images/decorations/3.png') }}" class="ornament-top-right" alt="">
-        <img src="{{ asset('images/decorations/4.png') }}" class="ornament-bottom-left" alt="">
-        <img src="{{ asset('images/decorations/2.png') }}" class="ornament-bottom-right" alt="">
+
+        
+        
     </div>
 
     {{-- Content --}}
