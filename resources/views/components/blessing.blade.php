@@ -1,6 +1,6 @@
 {{-- ===== BLESSING SECTION (HADITS) ===== --}}
 <section id="blessing" class="blessing-section" aria-label="Doa Pernikahan">
-    
+
     <!-- Corner Ornaments -->
     <div class="corner-ornament top-left" aria-hidden="true">
         @include('components.partials.corner-svg')
@@ -17,15 +17,18 @@
     <!-- Blessing Content -->
     <div class="blessing-content">
         <p class="blessing-transliteration gsap-fade-up">
-            Baarakallahu laka wa baaraka 'alaika wa jama'a bainakuma fi khayrin
+            Baarakallahu laka wa baaraka &rsquo;alaika wa jama&rsquo;a bainakumaa fii khair
         </p>
         <p class="blessing-translation gsap-fade-up">
-            <span data-i18n-lang="id">"Semoga Allah memberikan keberkahan padamu dan mengumpulkan kalian berdua dalam kebaikan"</span>
-            <span data-i18n-lang="en" class="i18n-hidden">"May Allah bless you and bring you together in goodness"</span>
+            <span data-i18n-lang="id">"Semoga Allah memberikan keberkahan padamu dan mengumpulkan kalian berdua dalam
+                kebaikan"</span>
+            <span data-i18n-lang="en" class="i18n-hidden">"May Allah bless you and bring you together in
+                goodness"</span>
         </p>
         <p class="blessing-reference gsap-fade-up">
             <span data-i18n-lang="id">(HR. Abu Daud no. 2130, dishahihkan Al Albani dalam Shahih Abu Daud)</span>
-            <span data-i18n-lang="en" class="i18n-hidden">(HR. Abu Dawud no. 2130, authenticated by Al Albani in Sahih Abu Dawud)</span>
+            <span data-i18n-lang="en" class="i18n-hidden">(HR. Abu Dawud no. 2130, authenticated by Al Albani in Sahih
+                Abu Dawud)</span>
         </p>
     </div>
 
