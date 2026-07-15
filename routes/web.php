@@ -14,6 +14,23 @@ use App\Http\Controllers\WishController;
 // Home redirect
 Route::get('/', fn () => redirect('/i/ikko-fadhly'));
 
+Route::get('/debug-db', function () {
+    try {
+        \DB::connection()->getPdo();
+        $invitations = \App\Models\Invitation::all();
+        return response()->json([
+            'status' => 'connected',
+            'invitations_count' => $invitations->count(),
+            'invitations' => $invitations,
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Personalized invitation — /i/ikko-fadhly/to/john-doe
 Route::get('/i/{invitation}/to/{guestSlug}', [InvitationController::class, 'show'])
     ->name('invitation.show.guest');
