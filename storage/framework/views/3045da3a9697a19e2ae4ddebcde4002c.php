@@ -1,2 +1,0 @@
-
-<?php echo $__env->make('layouts.invitation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\pcbaz\Documents\rifky\wedding_web\resources\views/invitation/show.blade.php ENDPATH**/ ?>
