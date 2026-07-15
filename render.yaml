@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: wedding-web
-    runtime: docker
-    plan: free
-    autoDeploy: true
