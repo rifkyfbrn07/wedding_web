@@ -1,5 +1,8 @@
 FROM dunglas/frankenphp:php8.3
 
+# Install Composer from the official Composer image
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 RUN install-php-extensions \
     pdo_mysql \
     bcmath \
