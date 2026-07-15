@@ -22,7 +22,7 @@
     {{-- Content --}}
     <div class="cover-content">
 
-        <p class="cover-eyebrow">Walimatul &rsquo;Urs</p>
+        <p class="cover-eyebrow">Walimatul &rsquo;Ursy</p>
 
         {{-- Names --}}
         <div class="cover-names-block">
