@@ -5,8 +5,14 @@ use Illuminate\Support\Facades\File;
 {{-- ===== GALLERY SECTION ===== --}}
 <section id="gallery" aria-label="Galeri Foto">
 
-    <div class="section-eyebrow gsap-fade-up">— Galeri —</div>
-    <h2 class="section-title gsap-fade-up">Momen Berharga</h2>
+    <div class="section-eyebrow gsap-fade-up">
+        <span data-i18n-lang="id">— Galeri —</span>
+        <span data-i18n-lang="en" class="i18n-hidden">— Gallery —</span>
+    </div>
+    <h2 class="section-title gsap-fade-up">
+        <span data-i18n-lang="id">Momen Berharga</span>
+        <span data-i18n-lang="en" class="i18n-hidden">Precious Moments</span>
+    </h2>
     <div class="gold-line gsap-fade-up"></div>
 
     @php
@@ -61,7 +67,8 @@ use Illuminate\Support\Facades\File;
     @else
         <div style="text-align:center;padding:4rem 0;color:var(--color-text-muted);">
             <p style="font-family:var(--font-serif-display);font-size:1.25rem;font-style:italic;">
-                Foto akan segera hadir…
+                <span data-i18n-lang="id">Foto akan segera hadir…</span>
+                <span data-i18n-lang="en" class="i18n-hidden">Photos coming soon…</span>
             </p>
         </div>
     @endif

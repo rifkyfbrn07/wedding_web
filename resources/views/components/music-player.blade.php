@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\File;
 
 @php
     // Cek apakah ada file musik
-    $musicPath = public_path('music/song.mp3');
+    $musicPath = public_path('music/Banda.mp3');
     $hasMusic = File::exists($musicPath);
 @endphp
 
@@ -22,6 +22,6 @@ use Illuminate\Support\Facades\File;
     </div>
 
     <audio id="music-player" loop preload="auto">
-        <source src="{{ asset('music/song.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('music/Banda.mp3') }}" type="audio/mpeg">
     </audio>
 @endif

@@ -10,7 +10,7 @@ export function initCover() {
     const cover = document.getElementById('cover-page');
     const openBtn = document.getElementById('open-invitation-btn');
 
-    if (!cover || !openBtn) return;
+    if (!cover) return;
 
     // Lock scroll on load
     document.body.classList.add('cover-locked');
@@ -61,13 +61,16 @@ export function initCover() {
         delay: 0.5
     });
 
-    openBtn.addEventListener('click', openInvitation);
-    openBtn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            openInvitation();
-        }
-    });
+    // Open invitation ONLY via the Buka Undangan button
+    if (openBtn) {
+        openBtn.addEventListener('click', openInvitation);
+        openBtn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openInvitation();
+            }
+        });
+    }
 }
 
 function openInvitation() {
@@ -141,12 +144,14 @@ function animateHeroEntrance() {
 }
 
 function startMusic() {
-    const audio = document.getElementById('bg-music');
+    const audio = document.getElementById('music-player') || document.getElementById('bg-music');
     if (!audio) return;
 
     const savedState = localStorage.getItem('wedding-music-playing');
     // Default to playing
     if (savedState !== 'false') {
+        // Skip intro (start at instrument part, ~30 seconds in)
+        audio.currentTime = 30;
         audio.volume = 0;
         audio.play().catch(() => {});
 
@@ -157,5 +162,16 @@ function startMusic() {
             audio.volume = vol;
             if (vol >= 0.6) clearInterval(fadeInterval);
         }, 100);
+
+        // Sync with music player state
+        localStorage.setItem('wedding-music-playing', 'true');
+        const musicToggle = document.getElementById('music-toggle');
+        if (musicToggle) {
+            musicToggle.classList.add('playing');
+        }
+        const playIcon = document.getElementById('music-icon-play');
+        const pauseIcon = document.getElementById('music-icon-pause');
+        if (playIcon) playIcon.style.display = 'none';
+        if (pauseIcon) pauseIcon.style.display = '';
     }
 }

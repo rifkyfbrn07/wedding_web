@@ -29,7 +29,7 @@ class GuestService
 
         if ($guestSlug) {
             $slug    = $guestSlug;
-            $rawName = ucwords(str_replace(['-', '_'], ' ', $guestSlug));
+            $rawName = str_replace(['-', '_'], ' ', $guestSlug);
         } elseif ($request->has('to')) {
             $rawName = trim($request->query('to'));
             $slug    = Str::slug($rawName);

@@ -1,85 +1,53 @@
-// music.js — Music Player dengan Auto-play
+// ============================================================
+// music.js — Music player FAB toggle (play/pause)
+// ============================================================
+
+let isPlaying = false;
+let audio = null;
+
 export function initMusicPlayer() {
-    const musicToggle = document.getElementById('music-toggle');
-    const musicPlayer = document.getElementById('music-player');
-    const iconPlay = document.getElementById('music-icon-play');
-    const iconPause = document.getElementById('music-icon-pause');
-    
-    if (!musicToggle || !musicPlayer) return;
-    
-    let isPlaying = false;
-    
-    // Function untuk update icon
-    function updateMusicIcon(playing) {
-        isPlaying = playing;
-        if (playing) {
-            if (iconPlay) iconPlay.style.display = 'none';
-            if (iconPause) iconPause.style.display = 'block';
-            musicToggle.classList.add('playing');
-        } else {
-            if (iconPlay) iconPlay.style.display = 'block';
-            if (iconPause) iconPause.style.display = 'none';
-            musicToggle.classList.remove('playing');
-        }
+    const toggle = document.getElementById('music-toggle');
+    audio = document.getElementById('music-player');
+
+    if (!toggle || !audio) return;
+
+    // Set audio reference globally for cover.js startMusic
+    window.bgMusic = audio;
+
+    // Restore state
+    const savedState = localStorage.getItem('wedding-music-playing');
+    if (savedState === 'true') {
+        isPlaying = true;
+        toggle.classList.add('playing');
+        document.getElementById('music-icon-play').style.display = 'none';
+        document.getElementById('music-icon-pause').style.display = '';
     }
-    
-    // Function untuk toggle play/pause
-    function toggleMusic() {
-        if (musicPlayer.paused) {
-            musicPlayer.play()
-                .then(() => {
-                    updateMusicIcon(true);
-                })
-                .catch((error) => {
-                    console.log('Play failed:', error);
-                });
-        } else {
-            musicPlayer.pause();
-            updateMusicIcon(false);
-        }
-    }
-    
-    // Event listener untuk button
-    musicToggle.addEventListener('click', toggleMusic);
-    musicToggle.addEventListener('keypress', function(e) {
+
+    toggle.addEventListener('click', toggleMusic);
+    toggle.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
             toggleMusic();
         }
     });
-    
-    // Update icon saat audio ended
-    musicPlayer.addEventListener('ended', function() {
-        updateMusicIcon(false);
-    });
-    
-    // AUTO-PLAY saat halaman dibuka
-    // Coba auto-play, kalau gagal (browser block), tunggu user interaction
-    musicPlayer.volume = 0.7; // Set volume 70%
-    
-    musicPlayer.play()
-        .then(() => {
-            console.log('Music auto-played successfully');
-            updateMusicIcon(true);
-        })
-        .catch((error) => {
-            console.log('Autoplay blocked by browser. Waiting for user interaction.');
-            // Browser block autoplay, user harus klik manual
-            updateMusicIcon(false);
-        });
-    
-    // Alternative: Auto-play setelah cover dibuka
-    window.addEventListener('cover-opened', () => {
-        setTimeout(() => {
-            if (musicPlayer.paused) {
-                musicPlayer.play()
-                    .then(() => {
-                        console.log('Music played after cover opened');
-                        updateMusicIcon(true);
-                    })
-                    .catch((error) => {
-                        console.log('Still blocked after cover opened');
-                    });
-            }
-        }, 500); // Delay 500ms setelah cover opened
-    });
+}
+
+function toggleMusic() {
+    if (!audio) return;
+
+    if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        localStorage.setItem('wedding-music-playing', 'false');
+        document.getElementById('music-toggle').classList.remove('playing');
+        document.getElementById('music-icon-play').style.display = '';
+        document.getElementById('music-icon-pause').style.display = 'none';
+    } else {
+        audio.play().catch(() => {});
+        isPlaying = true;
+        localStorage.setItem('wedding-music-playing', 'true');
+        document.getElementById('music-toggle').classList.add('playing');
+        document.getElementById('music-icon-play').style.display = 'none';
+        document.getElementById('music-icon-pause').style.display = '';
+    }
 }

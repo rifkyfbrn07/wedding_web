@@ -17,6 +17,8 @@ import { initMusicPlayer }    from './music.js';
 import { initGallery }        from './gallery.js';
 import { initRsvp }           from './rsvp.js';
 import { initWishes }         from './wishes.js';
+import { initLanguageSwitcher } from './language-switcher.js';
+
 
 // ── Register GSAP plugins ────────────────────────────────────
 gsap.registerPlugin(ScrollTrigger);
@@ -92,6 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         initCountdown(wedding.akadDate);
     }
 
+    // Language switcher
+    initLanguageSwitcher();
+
     // Sidebar active nav highlight
     initSidebarNav();
 });
@@ -103,7 +108,7 @@ window.addEventListener('cover-opened', () => {
 
 // ── Sidebar nav active state via IntersectionObserver ────────
 function initSidebarNav() {
-    const sections = ['hero', 'couple', 'countdown', 'event', 'rsvp'];
+    const sections = ['hero', 'couple', 'countdown', 'love-story', 'event', 'rsvp'];
     const navItems = document.querySelectorAll('[data-section]');
     if (!navItems.length) return;
 

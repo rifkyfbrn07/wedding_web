@@ -1,8 +1,14 @@
 {{-- ===== COUPLE SECTION ===== --}}
 <section id="couple" aria-label="Pasangan">
 
-    <div class="section-eyebrow gsap-fade-up">— Mempelai —</div>
-    <h2 class="section-title gsap-fade-up">Dua Jiwa, Satu Cinta</h2>
+    <div class="section-eyebrow gsap-fade-up">
+        <span data-i18n-lang="id">— Mempelai —</span>
+        <span data-i18n-lang="en" class="i18n-hidden">— The Couple —</span>
+    </div>
+    <h2 class="section-title gsap-fade-up">
+        <span data-i18n-lang="id">Dua Jiwa, Satu Cinta</span>
+        <span data-i18n-lang="en" class="i18n-hidden">Two Souls, One Love</span>
+    </h2>
     <div class="gold-line gsap-fade-up"></div>
 
     <div class="couple-grid">
@@ -23,10 +29,15 @@
             <h3 class="couple-name">{{ $invitation->bride_name }}</h3>
 
             <div class="couple-parents">
-                <span class="parent-label">Putri dari</span>
+                <span class="parent-label">
+                    <span data-i18n-lang="id">Putri dari</span>
+                    <span data-i18n-lang="en" class="i18n-hidden">Daughter of</span>
+                </span>
                 <span class="parent-names">
-                    {{ $invitation->bride_father ?? 'Bapak Moh. Nur' }}<br>
-                    &amp; {{ $invitation->bride_mother ?? 'Ibu Eko P.' }}
+                    <span data-i18n-lang="id">{{ $invitation->bride_father ?? 'Bapak Moh. Nur' }}</span>
+                    <span data-i18n-lang="en" class="i18n-hidden">{{ $invitation->bride_father ? str_replace(['Bapak ', 'Bpk. '], 'Mr. ', $invitation->bride_father) : 'Mr. Moh. Nur' }}</span><br>
+                    & <span data-i18n-lang="id">{{ $invitation->bride_mother ?? 'Ibu Eko P.' }}</span>
+                    <span data-i18n-lang="en" class="i18n-hidden">{{ $invitation->bride_mother ? str_replace(['Ibu ', 'Ibu. ', 'Ibu'], 'Mrs. ', $invitation->bride_mother) : 'Mrs. Eko P.' }}</span>
                 </span>
             </div>
 
@@ -35,7 +46,7 @@
         {{-- ── DIVIDER ── --}}
         <div class="couple-divider" aria-hidden="true">
             <div class="divider-line"></div>
-            <span class="amp-large">&amp;</span>
+            <span class="amp-large">&</span>
             <div class="divider-line"></div>
         </div>
 
@@ -55,10 +66,15 @@
             <h3 class="couple-name">{{ $invitation->groom_name }}</h3>
 
             <div class="couple-parents">
-                <span class="parent-label">Putra dari</span>
+                <span class="parent-label">
+                    <span data-i18n-lang="id">Putra dari</span>
+                    <span data-i18n-lang="en" class="i18n-hidden">Son of</span>
+                </span>
                 <span class="parent-names">
-                    {{ $invitation->groom_father ?? 'Bapak M. Effendi' }}<br>
-                    &amp; {{ $invitation->groom_mother ?? 'Ibu Elis S.' }}
+                    <span data-i18n-lang="id">{{ $invitation->groom_father ?? 'Bapak M. Effendi' }}</span>
+                    <span data-i18n-lang="en" class="i18n-hidden">{{ $invitation->groom_father ? str_replace(['Bapak ', 'Bpk. '], 'Mr. ', $invitation->groom_father) : 'Mr. M. Effendi' }}</span><br>
+                    & <span data-i18n-lang="id">{{ $invitation->groom_mother ?? 'Ibu Elis S.' }}</span>
+                    <span data-i18n-lang="en" class="i18n-hidden">{{ $invitation->groom_mother ? str_replace(['Ibu ', 'Ibu. ', 'Ibu'], 'Mrs. ', $invitation->groom_mother) : 'Mrs. Elis S.' }}</span>
                 </span>
             </div>
 

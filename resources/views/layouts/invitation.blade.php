@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="{{ app()->getLocale() }}" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +54,7 @@
         window.WEDDING = {
             invitationId: {{ $invitation->id }},
             akadDate: '{{ $invitation->akad_start_at->toIso8601String() }}',
-            hasMusicPath: {{ $invitation->music_path ? 'true' : 'false' }},
+            hasMusicPath: {{ $invitation->music_path ? 'true' : 'false' }}
         };
     </script>
 
@@ -64,6 +64,9 @@
     {{-- ===== MUSIC PLAYER ===== --}}
     @include('components.music-player', ['invitation' => $invitation])
 
+    {{-- ===== TUTORIAL MODAL ===== --}}
+    @include('components.tutorial-modal')
+
     {{-- ===== MAIN LAYOUT ===== --}}
     <div class="main-layout" id="main-layout">
         {{-- Fireflies Background Effect --}}
@@ -72,9 +75,10 @@
         {{-- LEFT: Scrollable Content --}}
         <main class="main-content" id="main-content">
 
-            @include('components.hero',      ['invitation' => $invitation])
+            @include('components.hero',      ['invitation' => $invitation, 'guest' => $guest ?? null])
             @include('components.couple',    ['invitation' => $invitation])
             @include('components.countdown', ['invitation' => $invitation])
+            @include('components.love-story')
             @include('components.event',     ['invitation' => $invitation])
             @include('components.blessing')
             @include('components.rsvp',      ['invitation' => $invitation, 'guest' => $guest ?? null])
@@ -99,10 +103,21 @@
     {{-- Mobile Bottom Nav --}}
     @include('components.mobile-nav')
 
-
+    {{-- Mobile Language Switcher --}}
+    <div class="mobile-lang-switcher">
+        <div class="lang-switcher" role="group" aria-label="Language switcher">
+            <button class="lang-btn is-active" data-lang-switch="id" aria-pressed="true" type="button">
+                <span class="lang-flag">🇮🇩</span> ID
+            </button>
+            <button class="lang-btn" data-lang-switch="en" aria-pressed="false" type="button">
+                <span class="lang-flag">🇺🇸</span> EN
+            </button>
+        </div>
+    </div>
 
     {{-- Toast --}}
     <div id="toast" class="toast" role="alert" aria-live="polite"></div>
 
 </body>
 </html>
+
