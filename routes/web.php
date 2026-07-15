@@ -11,23 +11,15 @@ use App\Http\Controllers\WishController;
 |--------------------------------------------------------------------------
 */
 
-// Home redirect
-Route::get('/', fn () => redirect('/i/ikko-fadhly'));
-
-Route::get('/debug-db', function () {
+Route::get('/', function () {
     try {
-        \DB::connection()->getPdo();
-        $invitations = \App\Models\Invitation::all();
-        return response()->json([
-            'status' => 'connected',
-            'invitations_count' => $invitations->count(),
-            'invitations' => $invitations,
-        ]);
+        $invitation = \App\Models\Invitation::first();
+        if ($invitation) {
+            return redirect()->route('invitation.show', $invitation->slug);
+        }
+        return response()->view('errors.no-invitations', [], 200);
     } catch (\Exception $e) {
-        return response()->json([
-            'status' => 'error',
-            'message' => $e->getMessage(),
-        ], 500);
+        return response()->view('errors.no-invitations', ['error' => $e->getMessage()], 200);
     }
 });
 
