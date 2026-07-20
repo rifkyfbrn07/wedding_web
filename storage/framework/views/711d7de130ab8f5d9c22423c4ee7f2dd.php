@@ -1,4 +1,4 @@
-{{-- ===== EVENT SECTION ===== --}}
+
 <section id="event" aria-label="Rangkaian Acara">
 
     <div class="section-eyebrow gsap-fade-up">
@@ -13,7 +13,7 @@
 
     <div class="event-cards">
 
-        {{-- ── AKAD NIKAH ── --}}
+        
         <article class="event-card" aria-label="Akad Nikah">
 
             <div class="event-type">
@@ -28,10 +28,10 @@
                 </svg>
                 <span>
                     <strong style="color:var(--color-beige);display:block;">
-                        <span data-i18n-lang="id">{{ \Carbon\Carbon::parse($invitation->akad_start_at)->locale('id')->translatedFormat('l, d F Y') }}</span>
-                        <span data-i18n-lang="en" class="i18n-hidden">{{ \Carbon\Carbon::parse($invitation->akad_start_at)->locale('en')->translatedFormat('l, d F Y') }}</span>
+                        <span data-i18n-lang="id"><?php echo e(\Carbon\Carbon::parse($invitation->akad_start_at)->locale('id')->translatedFormat('l, d F Y')); ?></span>
+                        <span data-i18n-lang="en" class="i18n-hidden"><?php echo e(\Carbon\Carbon::parse($invitation->akad_start_at)->locale('en')->translatedFormat('l, d F Y')); ?></span>
                     </strong>
-                    {{ $invitation->akad_start_at->format('H:i') }} – {{ $invitation->akad_end_at->format('H:i') }} WIB
+                    <?php echo e($invitation->akad_start_at->format('H:i')); ?> – <?php echo e($invitation->akad_end_at->format('H:i')); ?> WIB
                 </span>
             </div>
 
@@ -41,14 +41,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
                 </svg>
                 <span>
-                    <strong style="color:var(--color-beige);display:block;">{{ $invitation->venue_name }}</strong>
-                    {{ $invitation->venue_address }}
+                    <strong style="color:var(--color-beige);display:block;"><?php echo e($invitation->venue_name); ?></strong>
+                    <?php echo e($invitation->venue_address); ?>
+
                 </span>
             </div>
 
-            @if($invitation->maps_url)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($invitation->maps_url): ?>
                 <a
-                    href="{{ $invitation->maps_url }}"
+                    href="<?php echo e($invitation->maps_url); ?>"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="event-maps-btn"
@@ -60,11 +61,11 @@
                     <span data-i18n-lang="id">Lihat Lokasi</span>
                     <span data-i18n-lang="en" class="i18n-hidden">View Location</span>
                 </a>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         </article>
 
-        {{-- ── RECEPTION ── --}}
+        
         <article class="event-card" aria-label="Resepsi">
 
             <div class="event-type">
@@ -79,10 +80,10 @@
                 </svg>
                 <span>
                     <strong style="color:var(--color-beige);display:block;">
-                        <span data-i18n-lang="id">{{ \Carbon\Carbon::parse($invitation->reception_start_at)->locale('id')->translatedFormat('l, d F Y') }}</span>
-                        <span data-i18n-lang="en" class="i18n-hidden">{{ \Carbon\Carbon::parse($invitation->reception_start_at)->locale('en')->translatedFormat('l, d F Y') }}</span>
+                        <span data-i18n-lang="id"><?php echo e(\Carbon\Carbon::parse($invitation->reception_start_at)->locale('id')->translatedFormat('l, d F Y')); ?></span>
+                        <span data-i18n-lang="en" class="i18n-hidden"><?php echo e(\Carbon\Carbon::parse($invitation->reception_start_at)->locale('en')->translatedFormat('l, d F Y')); ?></span>
                     </strong>
-                    {{ $invitation->reception_start_at->format('H:i') }} – {{ $invitation->reception_end_at->format('H:i') }} WIB
+                    <?php echo e($invitation->reception_start_at->format('H:i')); ?> – <?php echo e($invitation->reception_end_at->format('H:i')); ?> WIB
                 </span>
             </div>
 
@@ -92,14 +93,15 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/>
                 </svg>
                 <span>
-                    <strong style="color:var(--color-beige);display:block;">{{ $invitation->venue_name }}</strong>
-                    {{ $invitation->venue_address }}
+                    <strong style="color:var(--color-beige);display:block;"><?php echo e($invitation->venue_name); ?></strong>
+                    <?php echo e($invitation->venue_address); ?>
+
                 </span>
             </div>
 
-            @if($invitation->maps_url)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($invitation->maps_url): ?>
                 <a
-                    href="{{ $invitation->maps_url }}"
+                    href="<?php echo e($invitation->maps_url); ?>"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="event-maps-btn"
@@ -111,10 +113,11 @@
                     <span data-i18n-lang="id">Lihat Lokasi</span>
                     <span data-i18n-lang="en" class="i18n-hidden">View Location</span>
                 </a>
-            @endif
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         </article>
 
     </div>
 
 </section>
+<?php /**PATH C:\Users\lapto\wedding_web\resources\views/components/event.blade.php ENDPATH**/ ?>

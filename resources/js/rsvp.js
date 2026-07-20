@@ -35,15 +35,21 @@ export function initRsvp() {
             const json = await res.json();
 
             if (res.ok && json.success) {
-                showToast('Terima kasih! RSVP Anda telah kami terima. 🎉', 'success');
+                const lang = localStorage.getItem('wedding_lang') || 'id';
+                const msg = lang === 'en' ? 'Thank you! We have received your RSVP. 🎉' : 'Terima kasih! RSVP Anda telah kami terima. 🎉';
+                showToast(msg, 'success');
                 form.reset();
                 window.dispatchEvent(new CustomEvent('rsvp-submitted'));
             } else {
-                const msg = json.message || 'Terjadi kesalahan. Silakan coba lagi.';
+                const lang = localStorage.getItem('wedding_lang') || 'id';
+                const defaultErr = lang === 'en' ? 'An error occurred. Please try again.' : 'Terjadi kesalahan. Silakan coba lagi.';
+                const msg = json.message || defaultErr;
                 showToast(msg, 'error');
             }
         } catch {
-            showToast('Koneksi bermasalah. Silakan coba lagi.', 'error');
+            const lang = localStorage.getItem('wedding_lang') || 'id';
+            const msg = lang === 'en' ? 'Connection problem. Please try again.' : 'Koneksi bermasalah. Silakan coba lagi.';
+            showToast(msg, 'error');
         } finally {
             if (btn) btn.disabled = false;
             if (btnText)    btnText.classList.remove('hidden');

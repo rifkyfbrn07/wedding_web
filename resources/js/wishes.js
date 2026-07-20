@@ -61,16 +61,22 @@ async function submitWish(invitationId, e) {
         const json = await res.json();
 
         if (res.ok && json.success) {
-            window.showToast?.('Ucapan Anda telah dikirim! ✨', 'success');
+            const lang = localStorage.getItem('wedding_lang') || 'id';
+            const msg = lang === 'en' ? 'Your wishes have been sent! ✨' : 'Ucapan Anda telah dikirim! ✨';
+            window.showToast?.(msg, 'success');
             form.reset();
             // Reload first page to show new wish
             wishesPage = 1;
             loadWishes(invitationId, true);
         } else {
-            window.showToast?.(json.message || 'Gagal mengirim ucapan.', 'error');
+            const lang = localStorage.getItem('wedding_lang') || 'id';
+            const defaultErr = lang === 'en' ? 'Failed to send wishes.' : 'Gagal mengirim ucapan.';
+            window.showToast?.(json.message || defaultErr, 'error');
         }
     } catch {
-        window.showToast?.('Koneksi bermasalah. Silakan coba lagi.', 'error');
+        const lang = localStorage.getItem('wedding_lang') || 'id';
+        const msg = lang === 'en' ? 'Connection problem. Please try again.' : 'Koneksi bermasalah. Silakan coba lagi.';
+        window.showToast?.(msg, 'error');
     } finally {
         if (btn) btn.disabled = false;
         if (btnText)    btnText.classList.remove('hidden');
@@ -133,14 +139,26 @@ function createWishCard(wish) {
     div.style.opacity = '0';
     div.style.transform = 'translateY(16px)';
 
-    const time = new Date(wish.created_at).toLocaleDateString('id-ID', {
+    const timeId = new Date(wish.created_at).toLocaleDateString('id-ID', {
         day: 'numeric', month: 'long', year: 'numeric',
     });
+    const timeEn = new Date(wish.created_at).toLocaleDateString('en-US', {
+        day: 'numeric', month: 'long', year: 'numeric',
+    });
+
+    const activeLang = localStorage.getItem('wedding_lang') || 'id';
+    const idHidden = activeLang === 'en' ? 'i18n-hidden' : '';
+    const enHidden = activeLang === 'en' ? '' : 'i18n-hidden';
+    const idAria = activeLang === 'en' ? 'true' : 'false';
+    const enAria = activeLang === 'en' ? 'false' : 'true';
 
     div.innerHTML = `
         <div class="wish-name">${escapeHtml(wish.name)}</div>
         <div class="wish-message">${escapeHtml(wish.message)}</div>
-        <div class="wish-time">${time}</div>
+        <div class="wish-time">
+            <span data-i18n-lang="id" class="${idHidden}" aria-hidden="${idAria}">${timeId}</span>
+            <span data-i18n-lang="en" class="${enHidden}" aria-hidden="${enAria}">${timeEn}</span>
+        </div>
     `;
 
     setTimeout(() => {

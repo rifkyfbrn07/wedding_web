@@ -150,18 +150,40 @@ function startMusic() {
     const savedState = localStorage.getItem('wedding-music-playing');
     // Default to playing
     if (savedState !== 'false') {
-        // Skip intro (start at instrument part, ~30 seconds in)
-        audio.currentTime = 30;
         audio.volume = 0;
-        audio.play().catch(() => {});
 
-        // Fade in volume
-        let vol = 0;
-        const fadeInterval = setInterval(() => {
-            vol = Math.min(vol + 0.05, 0.6);
-            audio.volume = vol;
-            if (vol >= 0.6) clearInterval(fadeInterval);
-        }, 100);
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                const seekToStartPos = () => {
+                    try {
+                        audio.currentTime = 30;
+                    } catch (e) {
+                        console.warn("Seeking failed:", e);
+                    }
+                };
+
+                if (audio.readyState >= 1) { // HAVE_METADATA or higher
+                    seekToStartPos();
+                } else {
+                    audio.addEventListener('loadedmetadata', seekToStartPos, { once: true });
+                }
+
+                // Fade in volume (standard fallback, has no effect on physical iOS volume)
+                let vol = 0;
+                const fadeInterval = setInterval(() => {
+                    vol = Math.min(vol + 0.05, 0.6);
+                    audio.volume = vol;
+                    if (vol >= 0.6) clearInterval(fadeInterval);
+                }, 100);
+            }).catch((err) => {
+                console.error("Playback block or error:", err);
+                // Fallback attempt: play without settings
+                audio.volume = 0.6;
+                audio.play().catch(e => console.error("Playback fallback failed:", e));
+            });
+        }
 
         // Sync with music player state
         localStorage.setItem('wedding-music-playing', 'true');

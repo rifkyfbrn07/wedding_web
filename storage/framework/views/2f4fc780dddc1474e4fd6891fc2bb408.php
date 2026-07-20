@@ -1,4 +1,4 @@
-{{-- ===== COUNTDOWN SECTION ===== --}}
+
 <section id="countdown" aria-label="Hitung Mundur">
 
     <div class="section-eyebrow gsap-fade-up" style="text-align:center;">
@@ -54,8 +54,8 @@
     </div>
 
     <p class="section-subtitle gsap-fade-up" style="text-align:center;margin-top:2rem;">
-        <span data-i18n-lang="id">{{ \Carbon\Carbon::parse($invitation->akad_start_at)->locale('id')->translatedFormat('l, d F Y') }}</span>
-        <span data-i18n-lang="en" class="i18n-hidden">{{ \Carbon\Carbon::parse($invitation->akad_start_at)->locale('en')->translatedFormat('l, d F Y') }}</span>
+        <span data-i18n-lang="id"><?php echo e(\Carbon\Carbon::parse($invitation->akad_start_at)->locale('id')->translatedFormat('l, d F Y')); ?></span>
+        <span data-i18n-lang="en" class="i18n-hidden"><?php echo e(\Carbon\Carbon::parse($invitation->akad_start_at)->locale('en')->translatedFormat('l, d F Y')); ?></span>
     </p>
 
-</section>
+</section><?php /**PATH C:\Users\lapto\wedding_web\resources\views/components/countdown.blade.php ENDPATH**/ ?>

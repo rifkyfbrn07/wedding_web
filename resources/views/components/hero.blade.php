@@ -34,7 +34,8 @@
 
         {{-- Wedding Date --}}
         <div class="hero-date-tag" aria-hidden="true">
-            {{ $invitation->akad_start_at->translatedFormat('l, d F Y') }}
+            <span data-i18n-lang="id">{{ \Carbon\Carbon::parse($invitation->akad_start_at)->locale('id')->translatedFormat('l, d F Y') }}</span>
+            <span data-i18n-lang="en" class="i18n-hidden">{{ \Carbon\Carbon::parse($invitation->akad_start_at)->locale('en')->translatedFormat('l, d F Y') }}</span>
         </div>
 
         {{-- Recipient --}}
