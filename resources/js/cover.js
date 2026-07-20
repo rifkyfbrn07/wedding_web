@@ -3,6 +3,7 @@
 // ============================================================
 
 import { gsap } from 'gsap';
+import { playMusic } from './music.js';
 
 let hasOpened = false;
 
@@ -78,7 +79,7 @@ function openInvitation() {
     hasOpened = true;
 
     // 1. Start music
-    startMusic();
+    playMusic();
 
     // 2. Animate cover and ornaments out
     const cover = document.getElementById('cover-page');
@@ -141,59 +142,4 @@ function animateHeroEntrance() {
         ease: 'power2.out',
         delay: 0.6,
     });
-}
-
-function startMusic() {
-    const audio = document.getElementById('music-player') || document.getElementById('bg-music');
-    if (!audio) return;
-
-    const savedState = localStorage.getItem('wedding-music-playing');
-    // Default to playing
-    if (savedState !== 'false') {
-        audio.volume = 0;
-
-        const playPromise = audio.play();
-
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                const seekToStartPos = () => {
-                    try {
-                        audio.currentTime = 30;
-                    } catch (e) {
-                        console.warn("Seeking failed:", e);
-                    }
-                };
-
-                if (audio.readyState >= 1) { // HAVE_METADATA or higher
-                    seekToStartPos();
-                } else {
-                    audio.addEventListener('loadedmetadata', seekToStartPos, { once: true });
-                }
-
-                // Fade in volume (standard fallback, has no effect on physical iOS volume)
-                let vol = 0;
-                const fadeInterval = setInterval(() => {
-                    vol = Math.min(vol + 0.05, 0.6);
-                    audio.volume = vol;
-                    if (vol >= 0.6) clearInterval(fadeInterval);
-                }, 100);
-            }).catch((err) => {
-                console.error("Playback block or error:", err);
-                // Fallback attempt: play without settings
-                audio.volume = 0.6;
-                audio.play().catch(e => console.error("Playback fallback failed:", e));
-            });
-        }
-
-        // Sync with music player state
-        localStorage.setItem('wedding-music-playing', 'true');
-        const musicToggle = document.getElementById('music-toggle');
-        if (musicToggle) {
-            musicToggle.classList.add('playing');
-        }
-        const playIcon = document.getElementById('music-icon-play');
-        const pauseIcon = document.getElementById('music-icon-pause');
-        if (playIcon) playIcon.style.display = 'none';
-        if (pauseIcon) pauseIcon.style.display = '';
-    }
 }

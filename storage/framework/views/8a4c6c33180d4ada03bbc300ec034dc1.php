@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\File;
         </svg>
     </div>
 
-    <audio id="music-player" loop preload="auto">
+    <audio id="bg-music" preload="auto" loop playsinline>
         <source src="<?php echo e($musicUrl); ?>" type="audio/mpeg">
     </audio>
 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?><?php /**PATH C:\Users\lapto\wedding_web\resources\views/components/music-player.blade.php ENDPATH**/ ?>

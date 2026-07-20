@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\File;
         </svg>
     </div>
 
-    <audio id="music-player" loop preload="auto">
+    <audio id="bg-music" preload="auto" loop playsinline>
         <source src="{{ $musicUrl }}" type="audio/mpeg">
     </audio>
 @endif

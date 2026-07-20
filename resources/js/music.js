@@ -5,22 +5,89 @@
 let isPlaying = false;
 let audio = null;
 
+export function playMusic() {
+    audio = document.getElementById('bg-music');
+    if (!audio) return;
+
+    const isFirstPlay = !localStorage.getItem('wedding-music-started-position');
+    if (isFirstPlay) {
+        try {
+            audio.currentTime = 30;
+            localStorage.setItem('wedding-music-started-position', 'true');
+        } catch (e) {
+            console.warn("Failed to seek to 30s before playing:", e);
+        }
+    }
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            if (isFirstPlay && audio.currentTime < 30) {
+                try {
+                    audio.currentTime = 30;
+                } catch (e) {
+                    console.warn("Failed to seek to 30s after playing:", e);
+                }
+            }
+        }).catch(err => {
+            console.error("Failed to start audio:", err);
+        });
+    }
+
+    isPlaying = true;
+    localStorage.setItem('wedding-music-playing', 'true');
+
+    const toggle = document.getElementById('music-toggle');
+    if (toggle) {
+        toggle.classList.add('playing');
+    }
+    const playIcon = document.getElementById('music-icon-play');
+    const pauseIcon = document.getElementById('music-icon-pause');
+    if (playIcon) playIcon.style.display = 'none';
+    if (pauseIcon) pauseIcon.style.display = '';
+}
+
+export function pauseMusic() {
+    audio = document.getElementById('bg-music');
+    if (!audio) return;
+
+    audio.pause();
+    isPlaying = false;
+    localStorage.setItem('wedding-music-playing', 'false');
+
+    const toggle = document.getElementById('music-toggle');
+    if (toggle) {
+        toggle.classList.remove('playing');
+    }
+    const playIcon = document.getElementById('music-icon-play');
+    const pauseIcon = document.getElementById('music-icon-pause');
+    if (playIcon) playIcon.style.display = '';
+    if (pauseIcon) pauseIcon.style.display = 'none';
+}
+
+export function toggleMusic() {
+    if (isPlaying) {
+        pauseMusic();
+    } else {
+        playMusic();
+    }
+}
+
 export function initMusicPlayer() {
     const toggle = document.getElementById('music-toggle');
-    audio = document.getElementById('music-player');
+    audio = document.getElementById('bg-music');
 
     if (!toggle || !audio) return;
-
-    // Set audio reference globally for cover.js startMusic
-    window.bgMusic = audio;
 
     // Restore state
     const savedState = localStorage.getItem('wedding-music-playing');
     if (savedState === 'true') {
         isPlaying = true;
         toggle.classList.add('playing');
-        document.getElementById('music-icon-play').style.display = 'none';
-        document.getElementById('music-icon-pause').style.display = '';
+        const playIcon = document.getElementById('music-icon-play');
+        const pauseIcon = document.getElementById('music-icon-pause');
+        if (playIcon) playIcon.style.display = 'none';
+        if (pauseIcon) pauseIcon.style.display = '';
     }
 
     toggle.addEventListener('click', toggleMusic);
@@ -30,24 +97,4 @@ export function initMusicPlayer() {
             toggleMusic();
         }
     });
-}
-
-function toggleMusic() {
-    if (!audio) return;
-
-    if (isPlaying) {
-        audio.pause();
-        isPlaying = false;
-        localStorage.setItem('wedding-music-playing', 'false');
-        document.getElementById('music-toggle').classList.remove('playing');
-        document.getElementById('music-icon-play').style.display = '';
-        document.getElementById('music-icon-pause').style.display = 'none';
-    } else {
-        audio.play().catch(() => {});
-        isPlaying = true;
-        localStorage.setItem('wedding-music-playing', 'true');
-        document.getElementById('music-toggle').classList.add('playing');
-        document.getElementById('music-icon-play').style.display = 'none';
-        document.getElementById('music-icon-pause').style.display = '';
-    }
 }
