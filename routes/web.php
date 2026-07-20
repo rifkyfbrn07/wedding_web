@@ -41,3 +41,31 @@ Route::get('/i/{invitation}', [InvitationController::class, 'show'])
 Route::post('/rsvp',    [RsvpController::class,  'store'])->name('rsvp.store');
 Route::post('/wishes',  [WishController::class,  'store'])->name('wishes.store');
 Route::get('/wishes',   [WishController::class,  'index'])->name('wishes.index');
+
+Route::get('/music/wedding-music.mp3', function () {
+    try {
+        $invitation = \App\Models\Invitation::first();
+        $path = null;
+        if ($invitation && $invitation->music_path) {
+            $path = storage_path('app/public/' . $invitation->music_path);
+        }
+        
+        if (!$path || !file_exists($path)) {
+            $path = public_path('music/Banda.mp3');
+        }
+
+        if (!file_exists($path)) {
+            $path = public_path('music/song.mp3');
+        }
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($path);
+        $response->headers->set('Content-Type', 'audio/mpeg');
+        return $response;
+    } catch (\Exception $e) {
+        abort(404);
+    }
+})->name('music.play');
