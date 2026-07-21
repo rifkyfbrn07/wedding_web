@@ -7,7 +7,7 @@
 
         {{-- Eyebrow: "WALIMATUL 'URS" --}}
         <p class="hero-eyebrow" aria-hidden="true">
-            <span data-i18n-lang="id">Walimatul 'Ursy</span>
+            <span data-i18n-lang="id">Walimatul 'Urus</span>
             <span data-i18n-lang="en" class="i18n-hidden">Walimatul 'Urus</span>
         </p>
 

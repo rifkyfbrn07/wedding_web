@@ -57,7 +57,7 @@ return [
         'akad_label' => 'Wedding Blessing',
         'akad_name' => 'Ijab Qabul',
         'reception_label' => 'Reception',
-        'reception_name' => 'Walimatul Ursy',
+        'reception_name' => 'Walimatul Urus',
         'maps_link' => 'View Location',
         'maps_aria' => 'View location on Google Maps',
     ],

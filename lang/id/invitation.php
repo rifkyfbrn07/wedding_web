@@ -57,7 +57,7 @@ return [
         'akad_label' => 'Akad Nikah',
         'akad_name' => 'Ijab Qabul',
         'reception_label' => 'Resepsi Pernikahan',
-        'reception_name' => 'Walimatul Ursy',
+        'reception_name' => 'Walimatul Urus',
         'maps_link' => 'Lihat Lokasi',
         'maps_aria' => 'Lihat lokasi di Google Maps',
     ],
