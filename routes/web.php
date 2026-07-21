@@ -42,7 +42,7 @@ Route::post('/rsvp',    [RsvpController::class,  'store'])->name('rsvp.store');
 Route::post('/wishes',  [WishController::class,  'store'])->name('wishes.store');
 Route::get('/wishes',   [WishController::class,  'index'])->name('wishes.index');
 
-Route::get('/music/wedding-music.mp3', function () {
+Route::get('/music/wedding-music.{ext}', function ($ext) {
     try {
         $invitation = \App\Models\Invitation::first();
         $path = null;
@@ -51,7 +51,7 @@ Route::get('/music/wedding-music.mp3', function () {
         }
         
         if (!$path || !file_exists($path)) {
-            $path = public_path('music/Banda.mp3');
+            $path = public_path('music/BandaNeira.m4a');
         }
 
         if (!file_exists($path)) {
@@ -62,10 +62,13 @@ Route::get('/music/wedding-music.mp3', function () {
             abort(404);
         }
 
+        $fileExt = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $contentType = ($fileExt === 'm4a' || $fileExt === 'mp4' || $fileExt === 'aac') ? 'audio/mp4' : 'audio/mpeg';
+
         $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($path);
-        $response->headers->set('Content-Type', 'audio/mpeg');
+        $response->headers->set('Content-Type', $contentType);
         return $response;
     } catch (\Exception $e) {
         abort(404);
     }
-})->name('music.play');
+})->where('ext', 'mp3|m4a')->name('music.play');

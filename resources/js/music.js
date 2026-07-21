@@ -5,9 +5,12 @@
 let isPlaying = false;
 let audio = null;
 
-export function playMusic() {
+export async function playMusic() {
     audio = document.getElementById('bg-music');
     if (!audio) return;
+
+    // Ensure audio volume is greater than zero and not programmatically muted
+    audio.volume = 0.6;
 
     const isFirstPlay = !localStorage.getItem('wedding-music-started-position');
     if (isFirstPlay) {
@@ -19,19 +22,17 @@ export function playMusic() {
         }
     }
 
-    const playPromise = audio.play();
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            if (isFirstPlay && audio.currentTime < 30) {
-                try {
-                    audio.currentTime = 30;
-                } catch (e) {
-                    console.warn("Failed to seek to 30s after playing:", e);
-                }
+    try {
+        await audio.play();
+        if (isFirstPlay && audio.currentTime < 30) {
+            try {
+                audio.currentTime = 30;
+            } catch (e) {
+                console.warn("Failed to seek to 30s after playing:", e);
             }
-        }).catch(err => {
-            console.error("Failed to start audio:", err);
-        });
+        }
+    } catch (e) {
+        console.error(e);
     }
 
     isPlaying = true;

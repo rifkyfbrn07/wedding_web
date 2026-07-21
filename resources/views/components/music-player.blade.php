@@ -10,6 +10,27 @@
     </svg>
 </div>
 
+@php
+    $invitation = \App\Models\Invitation::first();
+    $musicUrl = null;
+    $mime = 'audio/mp4';
+    
+    if ($invitation && $invitation->music_path) {
+        $musicUrl = asset('storage/' . $invitation->music_path);
+        $fileExt = strtolower(pathinfo($invitation->music_path, PATHINFO_EXTENSION));
+        $mime = in_array($fileExt, ['mp3', 'mpeg']) ? 'audio/mpeg' : 'audio/mp4';
+    } else {
+        $musicUrl = asset('music/BandaNeira.m4a');
+        $mime = 'audio/mp4';
+    }
+
+    // Local dev workaround for artisan serve's lack of HTTP range request support
+    if (app()->environment('local')) {
+        $ext = ($mime === 'audio/mpeg') ? 'mp3' : 'm4a';
+        $musicUrl = url('/music/wedding-music.' . $ext);
+    }
+@endphp
+
 <audio id="bg-music" preload="auto" loop playsinline>
-    <source src="{{ url('/music/wedding-music.mp3') }}" type="audio/mpeg">
+    <source src="{{ $musicUrl }}" type="{{ $mime }}">
 </audio>
